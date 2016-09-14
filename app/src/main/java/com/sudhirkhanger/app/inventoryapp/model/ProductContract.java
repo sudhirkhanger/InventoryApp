@@ -23,12 +23,12 @@ public class ProductContract {
 
         public static final String TABLE_NAME = "product";
 
-        private static final String COLUMN_NAME = "name";
-        private static final String COLUMN_PRICE = "price";
-        private static final String COLUMN_IMAGE = "image_uri";
-        private static final String COLUMN_QUANTITY = "quantity";
-        private static final String COLUMN_SOLD = "sold";
-        private static final String COLUMN_SUPPLIER = "supplier";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_PRICE = "price";
+        public static final String COLUMN_IMAGE = "image_uri";
+        public static final String COLUMN_QUANTITY = "quantity";
+        public static final String COLUMN_SOLD = "sold";
+        public static final String COLUMN_SUPPLIER = "supplier";
 
         public static Uri buildProductUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
