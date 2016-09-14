@@ -107,12 +107,58 @@ public class ProductProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        final SQLiteDatabase db = mProductDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int numDeleted;
+        switch (match) {
+            case PRODUCT:
+                numDeleted = db.delete(
+                        ProductContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
+                        ProductContract.ProductEntry.TABLE_NAME + "'");
+                break;
+            case PRODUCT_ID:
+                numDeleted = db.delete(
+                        ProductContract.ProductEntry.TABLE_NAME,
+                        ProductContract.ProductEntry._ID + " = ?",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))});
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
+                        ProductContract.ProductEntry.TABLE_NAME + "'");
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        return numDeleted;
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
+    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        final SQLiteDatabase db = mProductDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int numUpdated = 0;
+
+        if (contentValues == null) {
+            throw new IllegalArgumentException("Cannot have null content values");
+        }
+
+        switch (match) {
+            case PRODUCT:
+                numUpdated = db.update(ProductContract.ProductEntry.TABLE_NAME,
+                        contentValues,
+                        selection,
+                        selectionArgs);
+                break;
+            case PRODUCT_ID:
+                numUpdated = db.update(ProductContract.ProductEntry.TABLE_NAME,
+                        contentValues,
+                        ProductContract.ProductEntry._ID + " = ?",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))});
+                break;
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
+        return numUpdated;
     }
 }
