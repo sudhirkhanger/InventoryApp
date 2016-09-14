@@ -1,18 +1,16 @@
 package com.sudhirkhanger.app.inventoryapp;
 
+import android.content.ContentResolver;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.sudhirkhanger.app.inventoryapp.model.Product;
 import com.sudhirkhanger.app.inventoryapp.model.ProductContract;
-import com.sudhirkhanger.app.inventoryapp.model.ProductDbHelper;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -20,8 +18,6 @@ import com.sudhirkhanger.app.inventoryapp.model.ProductDbHelper;
 public class MainActivityFragment extends Fragment {
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
-
-    SQLiteOpenHelper mSQLiteOpenHelper;
 
     public MainActivityFragment() {
     }
@@ -31,33 +27,27 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mSQLiteOpenHelper = new ProductDbHelper(rootView.getContext());
+        TextView textView = (TextView) rootView.findViewById(R.id.textview);
 
-        Utility.addProduct(mSQLiteOpenHelper.getReadableDatabase(),
-                new Product(
-                        "name",
-                        8.99,
-                        "image",
-                        5,
-                        4,
-                        "supplier"));
+        ContentResolver resolver = getActivity().getContentResolver();
+        Cursor cursor =
+                resolver.query(ProductContract.ProductEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null);
 
-        Utility.addProduct(mSQLiteOpenHelper.getReadableDatabase(),
-                new Product(
-                        "name1",
-                        8.99,
-                        "image",
-                        5,
-                        4,
-                        "supplier"));
-
-        String countQuery = "SELECT  * FROM " + ProductContract.ProductEntry.TABLE_NAME;
-        SQLiteDatabase db = mSQLiteOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
         if (cursor != null) {
-            Log.d(LOG_TAG, "Items in db: " + cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME));
+                    Log.d(LOG_TAG, "An item found with name: " + name);
+                } while (cursor.moveToNext());
+            }
         }
-        cursor.close();
+
+        if (cursor != null)
+            cursor.close();
 
         return rootView;
     }
