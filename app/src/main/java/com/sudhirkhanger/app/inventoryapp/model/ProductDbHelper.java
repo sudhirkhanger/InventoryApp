@@ -3,7 +3,6 @@ package com.sudhirkhanger.app.inventoryapp.model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.util.Log;
 
 public class ProductDbHelper extends SQLiteOpenHelper {
@@ -18,24 +17,17 @@ public class ProductDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private String productName;
-    private double productPrice;
-    private Uri productImage;
-    private int productQuantity;
-    private int productSold;
-    private String productSupplier;
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATION_PRODUCT_TABLE =
                 "CREATE TABLE " + ProductContract.ProductEntry.TABLE_NAME + " (" +
-                        ProductContract.ProductEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        ProductContract.ProductEntry.COLUMN_NAME + "TEXT UNIQUE NOT NULL, " +
-                        ProductContract.ProductEntry.COLUMN_PRICE + "REAL NOT NULL, " +
-                        ProductContract.ProductEntry.COLUMN_IMAGE + "TEXT NOT NULL, " +
-                        ProductContract.ProductEntry.COLUMN_QUANTITY + "INTEGER NOT NULL, " +
-                        ProductContract.ProductEntry.COLUMN_SOLD + "INTEGER NOT NULL, " +
-                        ProductContract.ProductEntry.COLUMN_SUPPLIER + "TEXT NOT NULL" +
+                        ProductContract.ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        ProductContract.ProductEntry.COLUMN_NAME + " TEXT UNIQUE NOT NULL, " +
+                        ProductContract.ProductEntry.COLUMN_PRICE + " REAL NOT NULL, " +
+                        ProductContract.ProductEntry.COLUMN_IMAGE + " TEXT NOT NULL, " +
+                        ProductContract.ProductEntry.COLUMN_QUANTITY + " INTEGER NOT NULL, " +
+                        ProductContract.ProductEntry.COLUMN_SOLD + " INTEGER NOT NULL, " +
+                        ProductContract.ProductEntry.COLUMN_SUPPLIER + " TEXT NOT NULL" +
                         " );";
 
         Log.d(LOG_TAG, "onCreate: " + SQL_CREATION_PRODUCT_TABLE);

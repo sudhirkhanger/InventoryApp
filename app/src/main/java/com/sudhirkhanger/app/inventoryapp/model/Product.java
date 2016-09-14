@@ -1,19 +1,17 @@
 package com.sudhirkhanger.app.inventoryapp.model;
 
-import android.net.Uri;
-
 public class Product {
 
     private String productName;
     private double productPrice;
-    private Uri productImage;
+    private String productImage;
     private int productQuantity;
     private int productSold;
     private String productSupplier;
 
     public Product(String productName,
                    double productPrice,
-                   Uri productImage,
+                   String productImage,
                    int productQuantity,
                    int productSold,
                    String productSupplier) {
@@ -41,11 +39,11 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    public Uri getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(Uri productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
