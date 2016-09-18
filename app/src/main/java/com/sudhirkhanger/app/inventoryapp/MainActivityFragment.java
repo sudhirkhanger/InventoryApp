@@ -1,12 +1,18 @@
 package com.sudhirkhanger.app.inventoryapp;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.sudhirkhanger.app.inventoryapp.adapter.ProductAdapter;
+import com.sudhirkhanger.app.inventoryapp.model.Product;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -23,9 +29,33 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ContentResolver resolver = getActivity().getContentResolver();
+        ListView listView = (ListView) rootView.findViewById(R.id.product_listview);
 
-        ContentValues values = new ContentValues();
+        ArrayList<Product> productArrayList = new ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            Product product = new Product(
+                    "Name " + i,
+                    i,
+                    "image",
+                    4,
+                    4,
+                    "supplier");
+            productArrayList.add(product);
+        }
+
+        ProductAdapter productAdapter = new ProductAdapter(rootView.getContext(), productArrayList);
+        listView.setAdapter(productAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(MainActivityFragment.class.getSimpleName(), "clicked " + i);
+            }
+        });
+
+//        ContentResolver resolver = getActivity().getContentResolver();
+
+//        ContentValues values = new ContentValues();
 //
 //        String pro_name = "name " + 3;
 //

@@ -18,9 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <provider
-            android:name="com.sudhirkhanger.app.inventoryapp.model.ProductProvider"
+            android:name=".model.ProductProvider"
             android:authorities="com.sudhirkhanger.app.inventoryapp"/>
+
+        <activity
+            android:name=".AddProductActivity"
+            android:label="@string/title_activity_add_product"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sudhirkhanger.app.inventoryapp.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
