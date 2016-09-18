@@ -32,6 +32,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>
         </activity>
+        <activity
+            android:name=".ui.DetailProductActivity"
+            android:label="@string/title_activity_detail_product"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sudhirkhanger.app.inventoryapp.ui.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -4,7 +4,11 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +23,34 @@ import com.sudhirkhanger.app.inventoryapp.model.ProductContract;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     private ContentResolver mContentResolver;
-    private String[] mProjection;
+    private static final String[] PRODUCT_COLUMNS = {
+            ProductContract.ProductEntry._ID,
+            ProductContract.ProductEntry.COLUMN_NAME,
+            ProductContract.ProductEntry.COLUMN_PRICE,
+            ProductContract.ProductEntry.COLUMN_IMAGE,
+            ProductContract.ProductEntry.COLUMN_QUANTITY,
+            ProductContract.ProductEntry.COLUMN_SOLD,
+            ProductContract.ProductEntry.COLUMN_SUPPLIER,
+    };
+
+    private static final int PRODUCT_LOADER = 0;
+    private ProductCursorAdapter mProductCursorAdapter;
+    private ListView mListView;
+
+    /*
+     * To pass the product uri from
+     * fragment to activity and
+     * to details activity to its
+     * fragment
+     */
+    public interface Callback {
+        void onItemSelected(Uri productUri);
+    }
 
     public MainActivityFragment() {
     }
@@ -34,22 +61,14 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mContentResolver = getActivity().getContentResolver();
-        mProjection = new String[]{
-                ProductContract.ProductEntry._ID,
-                ProductContract.ProductEntry.COLUMN_NAME,
-                ProductContract.ProductEntry.COLUMN_PRICE,
-                ProductContract.ProductEntry.COLUMN_IMAGE,
-                ProductContract.ProductEntry.COLUMN_QUANTITY,
-                ProductContract.ProductEntry.COLUMN_SOLD,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER,
-        };
 
-        ListView listView = (ListView) rootView.findViewById(R.id.product_listview);
-        ProductCursorAdapter productCursorAdapter = new ProductCursorAdapter(
-                getContext(), queryAll());
-        listView.setAdapter(productCursorAdapter);
+        mListView = (ListView) rootView.findViewById(R.id.product_listview);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mProductCursorAdapter = new ProductCursorAdapter(getContext(), null);
+
+        mListView.setAdapter(mProductCursorAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(pos);
@@ -60,48 +79,36 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
-
-//        ContentResolver resolver = getActivity().getContentResolver();
-//
-//        ContentValues values = new ContentValues();
-//
-//        values.put(ProductContract.ProductEntry.COLUMN_NAME, "name 4");
-//        values.put(ProductContract.ProductEntry.COLUMN_PRICE, "100");
-//        values.put(ProductContract.ProductEntry.COLUMN_IMAGE, "cpimage");
-//        values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, "10");
-//        values.put(ProductContract.ProductEntry.COLUMN_SOLD, "0");
-//        values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "cpsupplier");
-//
-//        resolver.insert(ProductContract.ProductEntry.CONTENT_URI, values);
-
-        logQueryResults(queryAll());
-
         return rootView;
     }
 
-    public interface Callback {
-        void onItemSelected(Uri productUri);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
-    private Cursor queryAll() {
-        return mContentResolver.query(
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(LOG_TAG, "onCreateLoader()");
+        return new CursorLoader(
+                getActivity(),
                 ProductContract.ProductEntry.CONTENT_URI,
-                mProjection,
+                PRODUCT_COLUMNS,
                 null,
                 null,
                 null);
     }
 
-    private void logQueryResults(Cursor cursor) {
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    String name = cursor.getString(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME));
-                    double price = cursor.getDouble(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE));
-                    Log.d(LOG_TAG, "Name: " + name + " Price: " + price);
-                } while (cursor.moveToNext());
-                cursor.close();
-            }
-        }
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(LOG_TAG, "onLoadFinished()");
+        mProductCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(LOG_TAG, "onLoaderReset()");
+        mProductCursorAdapter.swapCursor(null);
     }
 }
