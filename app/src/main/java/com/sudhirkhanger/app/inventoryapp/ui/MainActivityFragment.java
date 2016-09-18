@@ -1,6 +1,7 @@
 package com.sudhirkhanger.app.inventoryapp.ui;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.sudhirkhanger.app.inventoryapp.R;
@@ -79,6 +81,16 @@ public class MainActivityFragment extends Fragment
                 }
             }
         });
+
+        Button button = (Button) rootView.findViewById(R.id.add_product_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 

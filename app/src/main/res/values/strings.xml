@@ -7,4 +7,10 @@
     <string name="title_activity_add_product">AddProductActivity</string>
     <string name="add_product_button">Add Product</string>
     <string name="title_activity_detail_product">DetailProductActivity</string>
+    <string name="enter_supplier_name">Enter Supplier Name</string>
+    <string name="enter_product_quantity">Enter Product Quantity</string>
+    <string name="enter_product_price">Enter Product Price</string>
+    <string name="enter_product_name">Enter Product Name</string>
+    <string name="add_product">Add Product</string>
+    <string name="add_image">Add Image</string>
 </resources>
