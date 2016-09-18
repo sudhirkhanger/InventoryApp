@@ -1,8 +1,10 @@
-package com.sudhirkhanger.app.inventoryapp;
+package com.sudhirkhanger.app.inventoryapp.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.sudhirkhanger.app.inventoryapp.R;
 
 public class AddProductActivity extends AppCompatActivity {
 

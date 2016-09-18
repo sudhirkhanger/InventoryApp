@@ -1,12 +1,19 @@
-package com.sudhirkhanger.app.inventoryapp;
+package com.sudhirkhanger.app.inventoryapp.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.sudhirkhanger.app.inventoryapp.R;
+
+public class MainActivity extends AppCompatActivity
+        implements MainActivityFragment.Callback {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,5 +43,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(Uri productUri) {
+        Log.d(LOG_TAG, productUri.toString());
     }
 }
