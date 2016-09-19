@@ -20,10 +20,12 @@ public class ProductCursorAdapter extends CursorAdapter {
     public static class ProductViewHolder {
         public final TextView mProductNameTextView;
         public final TextView mProductPriceTextView;
+        public final TextView mProductQuantityTextView;
 
         public ProductViewHolder(View view) {
             mProductNameTextView = (TextView) view.findViewById(R.id.product_name_textview);
             mProductPriceTextView = (TextView) view.findViewById(R.id.product_price_textview);
+            mProductQuantityTextView = (TextView) view.findViewById(R.id.product_quantity_textview);
         }
     }
 
@@ -43,8 +45,10 @@ public class ProductCursorAdapter extends CursorAdapter {
         String name = cursor.getString(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME));
         double priceVal = cursor.getDouble(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE));
         String priceStr = "$" + priceVal;
+        int quantity = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY));
 
         productViewHolder.mProductNameTextView.setText(name);
         productViewHolder.mProductPriceTextView.setText(priceStr);
+        productViewHolder.mProductQuantityTextView.setText(String.valueOf(quantity));
     }
 }

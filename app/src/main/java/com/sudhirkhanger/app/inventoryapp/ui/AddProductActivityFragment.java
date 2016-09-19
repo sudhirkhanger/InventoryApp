@@ -53,6 +53,7 @@ public class AddProductActivityFragment extends Fragment {
         });
 
         // TODO do something for unique name constraint
+        // TODO validate input prohibit empty one's
 
         return rootView;
     }

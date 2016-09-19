@@ -13,4 +13,7 @@
     <string name="enter_product_name">Enter Product Name</string>
     <string name="add_product">Add Product</string>
     <string name="add_image">Add Image</string>
+    <string name="please_click_add_product_button_to_add_products">Please click Add Product button
+        to add products
+    </string>
 </resources>

@@ -68,7 +68,12 @@ public class MainActivityFragment extends Fragment
 
         mProductCursorAdapter = new ProductCursorAdapter(getContext(), null);
 
-        mListView.setAdapter(mProductCursorAdapter);
+        if (mProductCursorAdapter.getCursor() == null) {
+            mListView.setEmptyView(rootView.findViewById(R.id.emptyView));
+        } else {
+            mListView.setAdapter(mProductCursorAdapter);
+        }
+
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
