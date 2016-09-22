@@ -80,8 +80,8 @@ public class MainActivityFragment extends Fragment
             }
         });
 
-        Button button = (Button) rootView.findViewById(R.id.add_product_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button addProductButton = (Button) rootView.findViewById(R.id.add_product_button);
+        addProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddProductActivity.class);

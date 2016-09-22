@@ -1,5 +1,6 @@
 package com.sudhirkhanger.app.inventoryapp.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity
         implements MainActivityFragment.Callback {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final String PRODUCT_KEY = "product_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(Uri productUri) {
-        Log.d(LOG_TAG, productUri.toString());
+        String uriPackage = productUri.toString();
+        Log.d(LOG_TAG, "product item " + uriPackage);
+        Intent intent = new Intent(this, DetailProductActivity.class);
+        intent.putExtra(PRODUCT_KEY, uriPackage);
+        startActivity(intent);
     }
 }

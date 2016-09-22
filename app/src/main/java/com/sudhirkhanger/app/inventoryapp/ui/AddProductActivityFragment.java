@@ -29,10 +29,9 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AddProductActivityFragment extends Fragment {
 
+    public static final int PICK_IMAGE_REQUEST = 1;
     private static final int SOLD = 0;
     private static final String LOG_TAG = AddProductActivityFragment.class.getSimpleName();
-    public static final int PICK_IMAGE_REQUEST = 1;
-
     private EditText mNameEditText;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
