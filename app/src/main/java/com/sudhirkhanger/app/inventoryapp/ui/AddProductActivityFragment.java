@@ -1,11 +1,14 @@
 package com.sudhirkhanger.app.inventoryapp.ui;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,12 +59,16 @@ public class AddProductActivityFragment extends Fragment {
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.verifyStoragePermissions(getActivity());
-                Intent imageIntent = new Intent();
-                imageIntent.setType("image/*");
-                imageIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(imageIntent,
-                        "Select Image"), PICK_IMAGE_REQUEST);
+                int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    Utility.verifyStoragePermissions(getActivity());
+                } else {
+                    Intent imageIntent = new Intent();
+                    imageIntent.setType("image/*");
+                    imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(imageIntent,
+                            "Select Image"), PICK_IMAGE_REQUEST);
+                }
             }
         });
 
