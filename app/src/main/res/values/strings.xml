@@ -16,4 +16,8 @@
     <string name="please_click_add_product_button_to_add_products">Please click Add Product button
         to add products
     </string>
+    <string name="add_product_exists">The product already exists</string>
+    <string name="product_exists">The product exists</string>
+    <string name="invalid_entry">Invalid entry entered</string>
+    <string name="entry_created">Entry Created</string>
 </resources>

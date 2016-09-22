@@ -1,6 +1,5 @@
 package com.sudhirkhanger.app.inventoryapp.ui;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,7 +28,6 @@ public class MainActivityFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
-    private ContentResolver mContentResolver;
     private static final String[] PRODUCT_COLUMNS = {
             ProductContract.ProductEntry._ID,
             ProductContract.ProductEntry.COLUMN_NAME,
@@ -43,6 +41,7 @@ public class MainActivityFragment extends Fragment
     private static final int PRODUCT_LOADER = 0;
     private ProductCursorAdapter mProductCursorAdapter;
     private ListView mListView;
+    private View mEmptyView;
 
     /*
      * To pass the product uri from
@@ -62,18 +61,12 @@ public class MainActivityFragment extends Fragment
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mContentResolver = getActivity().getContentResolver();
-
         mListView = (ListView) rootView.findViewById(R.id.product_listview);
+        mEmptyView = rootView.findViewById(R.id.emptyView);
 
         mProductCursorAdapter = new ProductCursorAdapter(getContext(), null);
 
-        if (mProductCursorAdapter.getCursor() == null) {
-            mListView.setEmptyView(rootView.findViewById(R.id.emptyView));
-        } else {
-            mListView.setAdapter(mProductCursorAdapter);
-        }
-
+        mListView.setAdapter(mProductCursorAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,7 +113,11 @@ public class MainActivityFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG, "onLoadFinished()");
-        mProductCursorAdapter.swapCursor(data);
+        if (data.getCount() == 0) {
+            mListView.setEmptyView(mEmptyView);
+        } else {
+            mProductCursorAdapter.swapCursor(data);
+        }
     }
 
     @Override
