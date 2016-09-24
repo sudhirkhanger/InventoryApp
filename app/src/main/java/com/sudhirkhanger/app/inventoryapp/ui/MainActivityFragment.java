@@ -28,7 +28,7 @@ public class MainActivityFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
-    private static final String[] PRODUCT_COLUMNS = {
+    public static final String[] PRODUCT_COLUMNS = {
             ProductContract.ProductEntry._ID,
             ProductContract.ProductEntry.COLUMN_NAME,
             ProductContract.ProductEntry.COLUMN_PRICE,

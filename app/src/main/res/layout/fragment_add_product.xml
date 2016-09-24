@@ -19,8 +19,9 @@
             android:id="@+id/imageview_add_product"
             android:layout_width="@dimen/image_dimen"
             android:layout_height="@dimen/image_dimen"
-            android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             tools:src="@mipmap/ic_launcher"/>
 
         <Button

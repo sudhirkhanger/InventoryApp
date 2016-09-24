@@ -70,4 +70,16 @@ public class Product {
     public void setProductSupplier(String productSupplier) {
         this.productSupplier = productSupplier;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productImage='" + productImage + '\'' +
+                ", productQuantity=" + productQuantity +
+                ", productSold=" + productSold +
+                ", productSupplier='" + productSupplier + '\'' +
+                '}';
+    }
 }
