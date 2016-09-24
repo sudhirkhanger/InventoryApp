@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class DetailProductActivityFragment extends Fragment {
     private Button removeButton;
     private Button deleteButton;
     private ViewTreeObserver viewTree;
+    private ImageButton mImageButtons;
 
     public DetailProductActivityFragment() {
     }
@@ -58,7 +60,7 @@ public class DetailProductActivityFragment extends Fragment {
         mContentResolver = getActivity().getContentResolver();
         final ContentValues contentValues = new ContentValues();
 
-        Intent intent = getActivity().getIntent();
+        final Intent intent = getActivity().getIntent();
         String uriString = intent.getStringExtra(MainActivity.PRODUCT_KEY);
         mUris = Uri.parse(uriString);
         Log.d(LOG_TAG, "product uri " + uriString);
@@ -120,7 +122,35 @@ public class DetailProductActivityFragment extends Fragment {
             }
         });
 
+        mImageButtons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }
+        });
+
         return rootView;
+    }
+
+    /*
+     * Adopted from http://www.tutorialspoint.com/android/android_sending_email.htm
+     */
+    private void sendEmail() {
+        String[] TO = {supplier};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order " + name);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Please ship " + name +
+                " in quantities " + quantity);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private Cursor queryProduct(Uri uri) {
@@ -161,5 +191,6 @@ public class DetailProductActivityFragment extends Fragment {
         removeButton = (Button) view.findViewById(R.id.remove_detail_btn);
         deleteButton = (Button) view.findViewById(R.id.delete_detail_btn);
         viewTree = imageView.getViewTreeObserver();
+        mImageButtons = (ImageButton) view.findViewById(R.id.email_detail);
     }
 }

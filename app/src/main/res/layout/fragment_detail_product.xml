@@ -122,13 +122,29 @@
             android:textAppearance="?android:textAppearanceLarge"
             tools:text="me@example.com"/>
 
-        <TextView
-            android:id="@+id/supplier_detail"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:textAppearance="?android:textAppearanceLarge"
-            tools:text="me@example.com"/>
+            android:layout_height="48dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+            <ImageButton
+                android:id="@+id/email_detail"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_shopping_cart_black_48dp"/>
+
+            <TextView
+                android:id="@+id/supplier_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/email_detail"
+                android:maxLines="1"
+                android:textAppearance="?android:textAppearanceLarge"
+                tools:text="me@example.com"/>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/delete_detail_btn"
