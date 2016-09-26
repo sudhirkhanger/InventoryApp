@@ -71,6 +71,7 @@ public class MainActivityFragment extends Fragment
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                Log.d(LOG_TAG, "Listview Item clicked");
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(pos);
                 if (cursor != null) {
                     ((Callback) getActivity()).onItemSelected(

@@ -26,4 +26,5 @@
     <string name="quantity">Quantity</string>
     <string name="sale">Sale</string>
     <string name="supplier_info">Supplier Info</string>
+    <string name="list_item_sale">Make Sale</string>
 </resources>
