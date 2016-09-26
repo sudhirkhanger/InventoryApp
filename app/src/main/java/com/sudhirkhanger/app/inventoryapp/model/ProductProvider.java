@@ -67,6 +67,7 @@ public class ProductProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
+                retCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return retCursor;
             case PRODUCT_ID:
                 retCursor = mProductDbHelper.getReadableDatabase().query(
@@ -77,6 +78,7 @@ public class ProductProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
+                retCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return retCursor;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

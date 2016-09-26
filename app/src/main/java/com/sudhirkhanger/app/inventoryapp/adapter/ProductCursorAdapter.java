@@ -19,9 +19,11 @@ import com.sudhirkhanger.app.inventoryapp.model.ProductContract;
 public class ProductCursorAdapter extends CursorAdapter {
 
     public static final String LOG_TAG = ProductCursorAdapter.class.getSimpleName();
+    private Context mContexts;
 
     public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
+        mContexts = context;
     }
 
     public static class ProductViewHolder {
@@ -54,9 +56,9 @@ public class ProductCursorAdapter extends CursorAdapter {
         final String name = cursor.getString(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_NAME));
         final double priceVal = cursor.getDouble(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE));
         final int quantity = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY));
-        final int sold = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SOLD));
         final int id = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
 
+        final Cursor cursorVal = cursor;
         String priceStatement = "Price $" + priceVal;
         String quantityStatement = " Quantity " + quantity;
         final Uri uri = ProductContract.ProductEntry.buildProductUri(id);
@@ -72,6 +74,8 @@ public class ProductCursorAdapter extends CursorAdapter {
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 if (quantity > 0) {
+                    int quantity = cursorVal.getInt(cursorVal.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY));
+                    int sold = cursorVal.getInt(cursorVal.getColumnIndex(ProductContract.ProductEntry.COLUMN_SOLD));
                     int quantityValue = quantity;
                     int soldValue = sold;
                     values.put(ProductContract.ProductEntry.COLUMN_SOLD, ++soldValue);
@@ -81,7 +85,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                             values,
                             null,
                             null);
-
+                    mContexts.getContentResolver().notifyChange(uri, null);
                 }
             }
         });
